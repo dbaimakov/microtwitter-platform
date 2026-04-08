@@ -2,7 +2,7 @@
 
 ## Reporting
 
-This repository is presented as an academic and portfolio project. If you discover a security issue in the sample code or deployment assets, please contact the maintainer directly or open a private security advisory if the repository has that feature enabled.
+If you discover a security issue in the sample code or deployment assets, please contact the maintainer directly or open a private security advisory if the repository has that feature enabled.
 
 ## Scope
 
