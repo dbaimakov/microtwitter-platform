@@ -37,12 +37,10 @@ This repository packages clean monorepo with Docker-based deployment, GitHub Act
 
 ## Why this repository exists
 
-The original coursework was delivered as separate milestones:
-
 - a four-service MicroTwitter-style microservices platform
 - an OAuth 2.0 enhanced User Management Service
 
-This repository turns those milestones into one coherent platform showcase. The default deployment runs the most advanced version of the system: the four-service platform backed by the OAuth-enabled User Management Service. An overlay file is also included to switch back to the original local-auth version of UMS when needed.
+This repository is a coherent platform showcase. The default deployment runs the most advanced version of the system: the four-service platform backed by the OAuth-enabled User Management Service. An overlay file is also included to switch back to the original local-auth version of UMS when needed.
 
 ## Highlights
 
