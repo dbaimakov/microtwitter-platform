@@ -1,6 +1,6 @@
 # MicroTwitter Platform
 
-A portfolio-ready Spring Boot microservices platform that combines user management, subscriptions, messaging, timeline aggregation, and an OAuth 2.0 / JWT-enabled authentication variant in a single GitHub-friendly repository.
+Spring Boot microservices platform that combines user management, subscriptions, messaging, timeline aggregation, and an OAuth 2.0 / JWT-enabled authentication variant in a single GitHub-friendly repository.
 
 This repository packages the semester work into a clean monorepo with Docker-based deployment, GitHub Actions CI, Postman collections, and documentation that makes the project easy to review, run, and extend.
 
