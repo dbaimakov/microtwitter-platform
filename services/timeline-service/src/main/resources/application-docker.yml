@@ -1,0 +1,10 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+clients:
+  ums:
+    base-url: ${UMS_BASE_URL:http://user-management-service:8081}
+  subscription:
+    base-url: ${SUBSCRIPTION_BASE_URL:http://subscription-service:8082}
+  message:
+    base-url: ${MESSAGE_BASE_URL:http://message-service:8083}

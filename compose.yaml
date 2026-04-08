@@ -1,0 +1,141 @@
+name: microtwitter-platform
+
+services:
+  ums-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      MYSQL_DATABASE: microtwitter_ums
+    ports:
+      - "${UMS_DB_PORT:-33061}:3306"
+    volumes:
+      - ums-db-data:/var/lib/mysql
+      - ./db/ums:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  subscriptions-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      MYSQL_DATABASE: microtwitter_subscriptions
+    ports:
+      - "${SUBSCRIPTIONS_DB_PORT:-33062}:3306"
+    volumes:
+      - subscriptions-db-data:/var/lib/mysql
+      - ./db/subscriptions:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  messages-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      MYSQL_DATABASE: microtwitter_messages
+    ports:
+      - "${MESSAGES_DB_PORT:-33063}:3306"
+    volumes:
+      - messages-db-data:/var/lib/mysql
+      - ./db/messages:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  user-management-service:
+    build:
+      context: ./services/oauth-user-management-service
+    environment:
+      SERVER_PORT: 8081
+      UMS_DB_URL: jdbc:mysql://ums-db:3306/microtwitter_ums
+      UMS_DB_USERNAME: root
+      UMS_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      JWT_SECRET: ${JWT_SECRET:-change-this-jwt-secret-to-a-long-random-value-for-production-use-1234567890}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-replace-with-github-client-id}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-replace-with-github-client-secret}
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    depends_on:
+      ums-db:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+
+  subscription-service:
+    build:
+      context: ./services/subscription-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8082
+      SUBSCRIPTIONS_DB_URL: jdbc:mysql://subscriptions-db:3306/microtwitter_subscriptions
+      SUBSCRIPTIONS_DB_USERNAME: root
+      SUBSCRIPTIONS_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      UMS_BASE_URL: http://user-management-service:8081
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    depends_on:
+      subscriptions-db:
+        condition: service_healthy
+      user-management-service:
+        condition: service_started
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+
+  message-service:
+    build:
+      context: ./services/message-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8083
+      MESSAGES_DB_URL: jdbc:mysql://messages-db:3306/microtwitter_messages
+      MESSAGES_DB_USERNAME: root
+      MESSAGES_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      UMS_BASE_URL: http://user-management-service:8081
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    depends_on:
+      messages-db:
+        condition: service_healthy
+      user-management-service:
+        condition: service_started
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
+
+  timeline-service:
+    build:
+      context: ./services/timeline-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8084
+      UMS_BASE_URL: http://user-management-service:8081
+      SUBSCRIPTION_BASE_URL: http://subscription-service:8082
+      MESSAGE_BASE_URL: http://message-service:8083
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    depends_on:
+      user-management-service:
+        condition: service_started
+      subscription-service:
+        condition: service_started
+      message-service:
+        condition: service_started
+    ports:
+      - "8084:8084"
+    restart: unless-stopped
+
+volumes:
+  ums-db-data:
+  subscriptions-db-data:
+  messages-db-data:

@@ -1,0 +1,37 @@
+name: ci
+
+permissions:
+  contents: read
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - services/user-management-service
+          - services/oauth-user-management-service
+          - services/subscription-service
+          - services/message-service
+          - services/timeline-service
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Build service
+        working-directory: ${{ matrix.service }}
+        run: mvn -B -DskipTests package

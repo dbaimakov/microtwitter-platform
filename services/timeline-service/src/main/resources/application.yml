@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: timeline-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+server:
+  port: 8084
+
+clients:
+  ums:
+    base-url: http://localhost:8081
+  subscription:
+    base-url: http://localhost:8082
+  message:
+    base-url: http://localhost:8083

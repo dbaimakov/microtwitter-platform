@@ -1,0 +1,703 @@
+{
+  "info": {
+    "_postman_id": "c4c1b9a4-8a02-4ee2-9f77-a4dd6f9e5d01",
+    "name": "MicroTwitter",
+    "description": "Hmmm",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "UMS",
+      "item": [
+        {
+          "name": "Login Bob",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/auth/login",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"bob\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.token) {",
+                  "    pm.environment.set(\"bobToken\", json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Alice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/auth/login",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.token) {",
+                  "    pm.environment.set(\"aliceToken\", json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Carol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/auth/login",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"carol\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.token) {",
+                  "    pm.environment.set(\"carolToken\", json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/auth/login",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json.data.token) {",
+                  "    pm.environment.set(\"adminToken\", json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/roles",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "roles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/users",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/users/{{aliceId}}",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "users",
+                "{{aliceId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/users",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"dave\",\n  \"displayName\": \"Dave Demo\",\n  \"email\": \"dave@example.com\",\n  \"password\": \"password123\",\n  \"roles\": [\n    \"SUBSCRIBER\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/users/{{userIdToDelete}}",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "users",
+                "{{userIdToDelete}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Current User (Me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/auth/me",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout Bob",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{umsBase}}/auth/logout",
+              "host": [
+                "{{umsBase}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "TwitterClone",
+      "item": [
+        {
+          "name": "Create New Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{subscriptionBase}}/subscriptions",
+              "host": [
+                "{{subscriptionBase}}"
+              ],
+              "path": [
+                "subscriptions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"producerUserId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Subscription for Subscriber",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{subscriptionBase}}/subscriptions",
+              "host": [
+                "{{subscriptionBase}}"
+              ],
+              "path": [
+                "subscriptions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldProducerUserId\": 1,\n  \"newProducerUserId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Subscription for Subscriber",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{subscriptionBase}}/subscriptions/subscriber/{{bobId}}",
+              "host": [
+                "{{subscriptionBase}}"
+              ],
+              "path": [
+                "subscriptions",
+                "subscriber",
+                "{{bobId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Subscription",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{subscriptionBase}}/subscriptions/{{aliceId}}",
+              "host": [
+                "{{subscriptionBase}}"
+              ],
+              "path": [
+                "subscriptions",
+                "{{aliceId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{aliceToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{messageBase}}/messages",
+              "host": [
+                "{{messageBase}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Hello from Alice #microtwitter\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{messageBase}}/messages",
+              "host": [
+                "{{messageBase}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Messages for Producer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{messageBase}}/messages/producer/{{aliceId}}",
+              "host": [
+                "{{messageBase}}"
+              ],
+              "path": [
+                "messages",
+                "producer",
+                "{{aliceId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{messageBase}}/messages/search?q=microtwitter",
+              "host": [
+                "{{messageBase}}"
+              ],
+              "path": [
+                "messages",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "microtwitter"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Message",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{aliceToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{messageBase}}/messages/{{messageIdToDelete}}",
+              "host": [
+                "{{messageBase}}"
+              ],
+              "path": [
+                "messages",
+                "{{messageIdToDelete}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Messages for Subscriber",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Auth-Token",
+                "value": "{{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{timelineBase}}/messages/subscriber/{{bobId}}",
+              "host": [
+                "{{timelineBase}}"
+              ],
+              "path": [
+                "messages",
+                "subscriber",
+                "{{bobId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "umsBase",
+      "value": "http://localhost:8081/api/v1"
+    },
+    {
+      "key": "subscriptionBase",
+      "value": "http://localhost:8082/api/v1"
+    },
+    {
+      "key": "messageBase",
+      "value": "http://localhost:8083/api/v1"
+    },
+    {
+      "key": "timelineBase",
+      "value": "http://localhost:8084/api/v1"
+    },
+    {
+      "key": "bobId",
+      "value": "2"
+    },
+    {
+      "key": "aliceId",
+      "value": "1"
+    },
+    {
+      "key": "carolId",
+      "value": "3"
+    },
+    {
+      "key": "adminId",
+      "value": "4"
+    },
+    {
+      "key": "bobToken",
+      "value": ""
+    },
+    {
+      "key": "aliceToken",
+      "value": ""
+    },
+    {
+      "key": "carolToken",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "userIdToDelete",
+      "value": "5"
+    },
+    {
+      "key": "messageIdToDelete",
+      "value": "1"
+    }
+  ]
+}

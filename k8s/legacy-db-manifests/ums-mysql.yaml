@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ums-mysql-secret
+  namespace: microtwitter
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: root123
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ums-mysql-pvc
+  namespace: microtwitter
+spec:
+  storageClassName: microk8s-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ums-mysql
+  namespace: microtwitter
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    app: ums-mysql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ums-mysql
+  namespace: microtwitter
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ums-mysql
+  template:
+    metadata:
+      labels:
+        app: ums-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.4
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ums-mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              value: microtwitter_ums
+          volumeMounts:
+            - name: ums-mysql-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: ums-mysql-storage
+          persistentVolumeClaim:
+            claimName: ums-mysql-pvc

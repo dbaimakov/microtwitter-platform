@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${SUBSCRIPTIONS_DB_URL:jdbc:mysql://subscriptions-db:3306/microtwitter_subscriptions}
+    username: ${SUBSCRIPTIONS_DB_USERNAME:root}
+    password: ${SUBSCRIPTIONS_DB_PASSWORD:root123}
+
+server:
+  port: ${SERVER_PORT:8082}
+
+clients:
+  ums:
+    base-url: ${UMS_BASE_URL:http://user-management-service:8081}

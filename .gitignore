@@ -1,0 +1,30 @@
+# Build output
+target/
+*/target/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Maven wrapper cache if added later
+.mvn/wrapper/maven-wrapper.jar
+
+# Docker
+**/.docker-cache

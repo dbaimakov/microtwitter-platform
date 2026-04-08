@@ -1,0 +1,11 @@
+services:
+  user-management-service:
+    build:
+      context: ./services/user-management-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8081
+      UMS_DB_URL: jdbc:mysql://ums-db:3306/microtwitter_ums
+      UMS_DB_USERNAME: root
+      UMS_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      JAVA_OPTS: ${JAVA_OPTS:-}

@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: message-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:33063/microtwitter_messages
+    username: root
+    password: root123
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+server:
+  port: 8083
+clients:
+  ums:
+    base-url: http://localhost:8081

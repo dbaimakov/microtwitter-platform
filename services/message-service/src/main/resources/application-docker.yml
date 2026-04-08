@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${MESSAGES_DB_URL:jdbc:mysql://messages-db:3306/microtwitter_messages}
+    username: ${MESSAGES_DB_USERNAME:root}
+    password: ${MESSAGES_DB_PASSWORD:root123}
+
+server:
+  port: ${SERVER_PORT:8083}
+
+clients:
+  ums:
+    base-url: ${UMS_BASE_URL:http://user-management-service:8081}
